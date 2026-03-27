@@ -15,7 +15,7 @@ iconClose.addEventListener('click', () => wrapper.classList.remove('active-popup
 const loginForm = document.querySelector('.form-box.login form');
 const registerForm = document.querySelector('.form-box.register form');
 
-const API_BASE = 'http://localhost:5000/api'; // backend base URL
+const API_BASE = 'https://asag-backend.onrender.com/api'; // backend base URL
 
 // helper for alerts
 function showAlert(msg) {

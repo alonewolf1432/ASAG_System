@@ -66,7 +66,7 @@
 
   <script>
     const token = localStorage.getItem('token');
-    const API_BASE = 'http://localhost:5000/api';
+    const API_BASE = 'https://asag-backend.onrender.com/api'; // backend base URL
 
     if (!token) window.location.href = 'index.html';
 
@@ -91,7 +91,7 @@
       const formData = new FormData(this);
 
       try {
-        const response = await fetch("http://localhost:5000/api/upload/grade-all", {
+        const response = await fetch("https://asag-backend.onrender.com/api/upload/grade-all", {
               method: "POST",
               headers: {
                 Authorization: "Bearer " + token
