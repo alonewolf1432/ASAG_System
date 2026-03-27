@@ -52,6 +52,7 @@ registerForm.addEventListener('submit', async (e) => {
 // ✅ LOGIN HANDLER
 loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const email = loginForm.querySelector('input[type="email"]').value.trim();
   const password = loginForm.querySelector('input[type="password"]').value;
 
@@ -61,37 +62,27 @@ loginForm.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
     });
+
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Login failed');
 
-    // ✅ save token & redirect to upload.html
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data.user));
+    // ✅ STORE TOKEN (ONLY ONCE)
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-    alert('Login successful!');
-    window.location.href = 'upload.html';
+      console.log("TOKEN SAVED:", data.token); // 🔥 DEBUG
+
+      alert('Login successful!');
+      window.location.href = "upload.html";
+    } else {
+      alert("Login failed: No token received");
+    }
 
   } catch (err) {
-    showAlert(err.message);
+    alert(err.message);
   }
 });
 
 
-const storedData = JSON.parse(localStorage.getItem("gradedData"));
-
-if (!storedData) {
-    alert("No data found. Please upload again.");
-    window.location.href = "upload.html";
-}
-
-// ✅ USE DIRECT DATA
-const results = storedData.results;
-const summary = storedData.summary;
-
-// Save globally for download
-globalGradedData = results;
-
-// Render
-processStats(results);
-renderTable(results);
 //python -m http.server 3000

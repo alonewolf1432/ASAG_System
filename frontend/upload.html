@@ -66,10 +66,13 @@
 
   <script>
     const token = localStorage.getItem('token');
+
+    console.log("TOKEN IN UPLOAD PAGE:", token); // 🔥 ADD THIS
     const API_BASE = 'https://asag-backend.onrender.com/api'; // backend base URL
 
-    if (!token) window.location.href = 'index.html';
-
+    if (!token || token === "undefined") {
+      window.location.href = "index.html"; // NOT login.html
+      }
     document.getElementById('logoutBtn').addEventListener('click', () => {
       localStorage.removeItem('token');
       window.location.href = 'index.html';
