@@ -1,0 +1,46 @@
+# -----------------------------
+# IGNORE BACKEND NODE MODULES
+# -----------------------------
+backend/node_modules/
+
+# -----------------------------
+# IGNORE BACKEND ENV FILE
+# -----------------------------
+backend/.env
+
+backend/ml_model/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/uploads/
+
+# -----------------------------
+# IGNORE LOG FILES
+# -----------------------------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# -----------------------------
+# OS SYSTEM FILES (from Windows/Mac)
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# LIVE SERVER CACHE (optional)
+# -----------------------------
+.vscode/
+
+# -----------------------------
+# IGNORE FRONTEND TEMP FILES
+# -----------------------------
+frontend/.cache/
+
+
+# node_modules/
+# .env
+# venv/
+# __pycache__/
+# *.pyc
+# uploads/

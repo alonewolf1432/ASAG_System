@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Grading Files</title>
+  <link rel="stylesheet" href="styles1.css" />
+  <style>
+      /* Extra styling for the big submit button */
+      .action-area {
+          text-align: center;
+          margin-top: 20px;
+          padding-bottom: 40px;
+      }
+      .btn-grade {
+          padding: 15px 40px;
+          font-size: 1.2rem;
+          background-color: #28a745;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background 0.3s;
+      }
+      .btn-grade:hover { background-color: #218838; }
+      .container h3 { min-height: 50px; } /* Align titles */
+  </style>
+</head>
+<body>
+  <header>
+    <h2 class="logo">ASAG System</h2>
+    <nav class="navigation">
+      <a href="#">Home</a>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </nav>
+  </header>
+
+  <form id="gradingForm">
+      
+      <div class="upload-wrapper">
+        <div class="container">
+          <h3>1. Upload Questions</h3>
+          <p class="text-muted"><small>(Excel/CSV)</small></p>
+          <input type="file" name="questionsFile" accept=".xlsx,.xls,.csv" required />
+        </div>
+
+        <div class="container">
+          <h3>2. Reference Answer Key</h3>
+          <p class="text-muted"><small>(Excel/CSV)</small></p>
+          <input type="file" name="referenceFile" accept=".xlsx,.xls,.csv" required />
+        </div>
+
+        <div class="container">
+          <h3>3. Student Responses</h3>
+          <p class="text-muted"><small>(Google Forms CSV)</small></p>
+          <input type="file" name="studentFile" accept=".xlsx,.xls,.csv" required />
+        </div>
+      </div>
+
+      <div class="action-area">
+          <button type="submit" class="btn-grade">🚀 Upload & Start Grading</button>
+          <div class="msg" id="status-msg" style="margin-top: 15px; font-weight: bold;"></div>
+      </div>
+
+  </form>
+
+  <script>
+    const token = localStorage.getItem('token');
+    const API_BASE = 'http://localhost:5000/api';
+
+    if (!token) window.location.href = 'index.html';
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('token');
+      window.location.href = 'index.html';
+    });
+
+    // --- NEW LOGIC: Single Submit for All Files ---
+    document.getElementById('gradingForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      
+      const msgEl = document.getElementById('status-msg');
+      const submitBtn = document.querySelector('.btn-grade');
+      
+      // Visual Feedback
+      submitBtn.disabled = true;
+      submitBtn.innerText = "⏳ Processing... Please Wait";
+      msgEl.innerText = "Uploading files and running AI model...";
+      msgEl.style.color = "blue";
+
+      const formData = new FormData(this);
+
+      try {
+        const response = await fetch("http://localhost:5000/api/upload/grade-all", {
+              method: "POST",
+              headers: {
+                Authorization: "Bearer " + token
+              },
+              body: formData
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(data.error || "Upload failed");
+            }
+
+            // ✅ STORE DATA (IMPORTANT)
+            localStorage.setItem("gradedData", JSON.stringify(data));
+
+            // ✅ REDIRECT TO DASHBOARD
+            window.location.href = "dashboard.html";
+      } catch (err) {
+        console.error(err);
+        msgEl.innerText = "❌ Error: " + err.message;
+        msgEl.style.color = "red";
+        submitBtn.disabled = false;
+        submitBtn.innerText = "🚀 Upload & Start Grading";
+      }
+    });
+  </script>
+</body>
+</html>
