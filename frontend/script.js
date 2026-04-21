@@ -85,4 +85,17 @@ loginForm.addEventListener('submit', async (e) => {
 });
 
 
+document.querySelector('.user-guide-btn').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const link = document.createElement('a');
+    link.href = "https://res.cloudinary.com/your-cloud-name/image/upload/fl_attachment/v123456/user_guide.pdf";
+    link.download = "ASAG_User_Guide.pdf";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
+
+
 //python -m http.server 3000
