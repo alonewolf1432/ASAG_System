@@ -27,10 +27,17 @@ app.use('/api/upload', uploadRoutes);
 
 app.get('/', (req, res) => res.json({ msg: 'API up' }));
 
-app.get('/download-guide', (req, res) => {
-    const fileUrl = "https://api.cloudinary.com/v1_1/dkgcjhrnv/image/download?api_key=337742628965437&attachment=true&public_id=user_guide_roq6fz";
+const https = require('https');
 
-    res.redirect(fileUrl);
+app.get('/download-guide', (req, res) => {
+    const fileUrl = "https://res.cloudinary.com/dkgcjhrnv/image/upload/v1776801073/user_guide_roq6fz.pdf";
+
+    https.get(fileUrl, (fileRes) => {
+        res.setHeader('Content-Disposition', 'attachment; filename="ASAG_User_Guide.pdf"');
+        res.setHeader('Content-Type', 'application/pdf');
+
+        fileRes.pipe(res);
+    });
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
