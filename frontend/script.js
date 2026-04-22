@@ -85,8 +85,5 @@ loginForm.addEventListener('submit', async (e) => {
 });
 
 
-// document.querySelector('.user-guide-btn').addEventListener('click', function () {
-//     window.location.href = "https://asag-backend.onrender.com/download-guide";
-// });
 
 //python -m http.server 3000

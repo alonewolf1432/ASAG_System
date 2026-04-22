@@ -31,26 +31,6 @@ const https = require('https');
 
 const axios = require('axios');
 
-// app.get('/download-guide', async (req, res) => {
-//     try {
-//         const fileUrl = "https://res.cloudinary.com/dkgcjhrnv/image/upload/v1776801073/user_guide_roq6fz.pdf";
 
-//         const response = await axios({
-//             url: fileUrl,
-//             method: 'GET',
-//             responseType: 'stream'
-//         });
-
-//         res.setHeader('Content-Disposition', 'attachment; filename="ASAG_User_Guide.pdf"');
-//         res.setHeader('Content-Type', 'application/pdf');
-
-//         response.data.pipe(res);
-
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send("Download failed");
-//     }
-// });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
-
