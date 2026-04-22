@@ -85,18 +85,8 @@ loginForm.addEventListener('submit', async (e) => {
 });
 
 
-document.querySelector('.user-guide-btn').addEventListener('click', function (e) {
-    e.preventDefault();
-
-    const fileUrl = "https://res.cloudinary.com/dkgcjhrnv/image/upload/fl_attachment/v1776801073/user_guide_roq6fz.pdf";
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = "ASAG_User_Guide.pdf";
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+document.querySelector('.user-guide-btn').addEventListener('click', function () {
+    window.location.href = "https://asag-backend.onrender.com/download-guide";
 });
-
 
 //python -m http.server 3000
