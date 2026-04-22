@@ -29,15 +29,27 @@ app.get('/', (req, res) => res.json({ msg: 'API up' }));
 
 const https = require('https');
 
-app.get('/download-guide', (req, res) => {
-    const fileUrl = "https://res.cloudinary.com/dkgcjhrnv/image/upload/v1776801073/user_guide_roq6fz.pdf";
+const axios = require('axios');
 
-    https.get(fileUrl, (fileRes) => {
+app.get('/download-guide', async (req, res) => {
+    try {
+        const fileUrl = "https://res.cloudinary.com/dkgcjhrnv/image/upload/v1776801073/user_guide_roq6fz.pdf";
+
+        const response = await axios({
+            url: fileUrl,
+            method: 'GET',
+            responseType: 'stream'
+        });
+
         res.setHeader('Content-Disposition', 'attachment; filename="ASAG_User_Guide.pdf"');
         res.setHeader('Content-Type', 'application/pdf');
 
-        fileRes.pipe(res);
-    });
+        response.data.pipe(res);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Download failed");
+    }
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
